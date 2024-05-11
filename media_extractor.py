@@ -1,5 +1,6 @@
 import os
 import shutil
+from zipfile import ZipFile
 
 # Constants
 ROOT_BACKUP_PATH = '/mnt/c/Users/ojmlc/Documents/backup/'
@@ -21,18 +22,33 @@ def create_destination_path(destinatio_path) -> None:
             os.mkdir(destinatio_path)
             print('Destinatio path created')
         except IOError:
-            print('No se puede crear la ruta de destino ', destinatio_path)
+            print('the destination route could not be created ', destinatio_path)
 
     else:
         print('Destination path alrready exists')
+        
+def unzip_files(zip_files) ->None:
+    counter = 0
+
+    for file in zip_files:
+        counter += 1
+        file_path = ROOT_BACKUP_PATH + file
+
+        with ZipFile(file_path, 'r') as zip_ref:
+            zip_ref.extractall(ROOT_BACKUP_PATH + 'unzipped-' + str(counter))
+        
+        os.remove(file_path)
 
 def move_backup_files() -> None:
-    total_dirs = len(next(os.walk(ROOT_BACKUP_PATH))[1])
+    zip_files = next(os.walk(ROOT_BACKUP_PATH))[2]
+    total_dirs = len(zip_files)
     global dirs_opened
     progress_bar(dirs_opened, total_dirs, prefix='Progress:', suffix='Complete', length=50)
+    unzip_files(zip_files)
+    dirs = next(os.walk(ROOT_BACKUP_PATH))[1]
     
-    for directory in next(os.walk(ROOT_BACKUP_PATH))[1]:
-        sub_dir_path = ROOT_BACKUP_PATH + directory + SUB_BACKUP_PATH
+    for dir in dirs:
+        sub_dir_path = ROOT_BACKUP_PATH + dir + SUB_BACKUP_PATH
         progress_bar(dirs_opened, total_dirs, prefix='Progress:', suffix='Complete', length=50)
         dirs_opened += 1
         
