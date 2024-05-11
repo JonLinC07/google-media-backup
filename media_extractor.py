@@ -3,7 +3,7 @@ import shutil
 
 # Constants
 ROOT_BACKUP_PATH = '/mnt/c/Users/ojmlc/Documents/backup/'
-SUB_BACKUP_PATH = '/Takeout/Google Fotos/'
+SUB_BACKUP_PATH = '/Takeout/Google Fotos/'
 EXTENTIONS = ['.jpg', '.JPG', '.jpeg', '.JPEG', '.png', '.PNG', '.mp4', '.MP4', '.gif', '.GIF']
 DESTINATION_ABSOLUTE_PATH = '/mnt/c/Users/ojmlc/Documents/google-res/'
 
